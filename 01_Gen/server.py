@@ -7,15 +7,15 @@ if __name__ == "__main__":
     s.bind((socket.gethostname(), 1234))
     s.listen(5)
 
-    HEADERSIZE = 10
+    HEADER = 10
 
     while True:
-        clientsocket, address = s.accept()
+        client_socket, address = s.accept()
         print(f"Connection from {address} has been established")
 
         while True:
             time.sleep(1)
             d = Data()
             msg = d.get_object()
-            msg = f'{len(msg):<{HEADERSIZE}}' + msg
-            clientsocket.send(bytes(msg, "utf-8"))
+            msg = f'{len(msg):<{HEADER}}' + msg
+            client_socket.send(bytes(msg, "utf-8"))
