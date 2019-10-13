@@ -5,6 +5,7 @@ import random
 
 
 class Data:
+    # Creates the sensor data in the expected format.
     def __init__(self):
         self.id = str(uuid.uuid4())
         self.type = "Sensor"
@@ -27,3 +28,4 @@ class Data:
         if self.id and self.temp and self.type and self.time:
             self.__make_object()
             return json.dumps(self.object)
+            # easier json than pickle (?)
