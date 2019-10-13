@@ -11,27 +11,27 @@ class Pipeline:
 
     def read_queue(self):
         while self.q is not self.q.empty():
-            print(self.q.get())
+            worker = self.q.get()
+            worker.store(worker.data)
 
     def start_reader(self):
         reader = threading.Thread(target=self.read_queue)
         reader.start()
 
     def __add_to_queue(self, worker):
+        worker.add_t()
         self.q.put(worker)
 
     def add_worker(self, job):
         w = Worker(job)
         t = threading.Thread(target=self.__add_to_queue, args=(w,))
         t.start()
-        # make sure you also lock before you continue.
         t.join()
-
-
 
 
 class Worker:
     # transforms data
+    # stores in DB
     def __init__(self, data):
         self.data = json.loads(data)
 
@@ -44,5 +44,21 @@ class Worker:
         f = self.data.get('content').get('temperature_f')
         self.data.get('content')['temperature_c'] = self.__fahrenheit_to_celsius(f)
 
-    def parse_data(self):
-        return json.dumps(self.data)
+    def __paperwork(self, data):
+        t = Transform(data)
+        job = t.flatten(data)
+        print(job)
+        key = t.make_key_from_id()
+        index = t.create_time_index()
+        return key, job, index
+
+    def __send_to_db(self, paperwork):
+        print('reached redis')
+        host = 'localhost'
+        r = Redis(host) # the name is obvious, but it's abstract enough to use any other DB if we want to change it.
+        r.create(paperwork[0], paperwork[1], paperwork[2])
+
+    def store(self, data):
+        print('reached store function')
+        t = self.__paperwork(data)
+        self.__send_to_db(t)

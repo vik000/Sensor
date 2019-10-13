@@ -6,7 +6,7 @@ from datetime import datetime as dt
 
 class Transform:
     def __init__(self, data):
-        self.d = json.loads(data)
+        self.d = data
 
     def flatten(self, data):
         r = {}
@@ -23,7 +23,8 @@ class Transform:
         return self.d.get('id')
 
     def create_time_index(self):
-        t = dt.fromisoformat(self.data.get("time_of_measurement"))
+        tf = self.d.get("content").get('time_of_measurement')
+        t = dt.fromisoformat(str(tf))
         return t.strftime("%Y%m%d%H%M%S")
 
 
