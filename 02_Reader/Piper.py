@@ -9,12 +9,25 @@ class Pipeline:
     def __init__(self):
         self.q = queue.Queue()
 
+    def read_queue(self):
+        while self.q is not self.q.empty():
+            print(self.q.get())
+
+    def start_reader(self):
+        reader = threading.Thread(target=self.read_queue)
+        reader.start()
+
     def __add_to_queue(self, worker):
-        self.q.put(worker) # so far we reach HERE
+        self.q.put(worker)
 
     def add_worker(self, job):
         w = Worker(job)
-        self.__add_to_queue(w)
+        t = threading.Thread(target=self.__add_to_queue, args=(w,))
+        t.start()
+        # make sure you also lock before you continue.
+        t.join()
+
+
 
 
 class Worker:

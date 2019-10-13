@@ -1,10 +1,11 @@
 import socket
-from Piper import Pipeline, Worker
+from Piper import Pipeline
 
 HEADER = 10
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((socket.gethostname(), 1234))
 p = Pipeline()
+p.start_reader()
 
 while True:
     full_msg = ''
@@ -18,8 +19,6 @@ while True:
         if len(full_msg) - HEADER == msg_len:
             job = full_msg[HEADER:]
             p.add_worker(job)
-            # w = Worker(job)
-            # w.add_t()
 
             new_msg = True
             full_msg = ''
