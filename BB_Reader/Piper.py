@@ -60,13 +60,14 @@ class Worker:
         host = 'localhost'
         r = Redis(host) # the name is obvious, but it's abstract enough to use any other DB if we want to change it.
         if r.create(paperwork[0], paperwork[1], paperwork[2]) == 1:
-            return 1
+            return paperwork[1]
         else:
             return 0
 
     def store(self, data):
         t = self.__paperwork(data)
-        if self.__send_to_db(t) == 1:
-            logging.info('data stored, ' + json.dumps(data))
+        r = self.__send_to_db(t)
+        if r != 0:
+            logging.info('data stored, ' + json.dumps(r))
             logging.info("------------------------------------------------------------------------------------------")
 
