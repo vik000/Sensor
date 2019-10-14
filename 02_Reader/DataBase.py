@@ -1,6 +1,5 @@
 # make sure redis server is on (redis-server)
 import redis
-import json
 from datetime import datetime as dt
 
 

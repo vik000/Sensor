@@ -53,12 +53,10 @@ class Worker:
         return key, job, index
 
     def __send_to_db(self, paperwork):
-        print('reached redis')
         host = 'localhost'
         r = Redis(host) # the name is obvious, but it's abstract enough to use any other DB if we want to change it.
         r.create(paperwork[0], paperwork[1], paperwork[2])
 
     def store(self, data):
-        print('reached store function')
         t = self.__paperwork(data)
         self.__send_to_db(t)
