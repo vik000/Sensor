@@ -47,7 +47,7 @@ class Worker:
         self.data.get('content')['temperature_c'] = self.fahrenheit_to_celsius(f)
 
     @staticmethod
-    def __paperwork(self, data):
+    def __paperwork(data):
         t = Transform(data)
         job = t.flatten(data)
         print(job)
@@ -56,7 +56,7 @@ class Worker:
         return key, job, index
 
     @staticmethod
-    def __send_to_db(self, paperwork):
+    def __send_to_db(paperwork):
         host = 'localhost'
         r = Redis(host) # the name is obvious, but it's abstract enough to use any other DB if we want to change it.
         if r.create(paperwork[0], paperwork[1], paperwork[2]) == 1:
