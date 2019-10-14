@@ -1,6 +1,7 @@
 import queue
 import json
 import threading
+import logging
 from DataBase import Transform, Redis
 
 
@@ -34,6 +35,7 @@ class Worker:
     # stores in DB
     def __init__(self, data):
         self.data = json.loads(data)
+        logging.info("worker created")
 
     @staticmethod
     def __fahrenheit_to_celsius(f):
@@ -60,3 +62,5 @@ class Worker:
     def store(self, data):
         t = self.__paperwork(data)
         self.__send_to_db(t)
+        logging.info('data stored, ' + json.dumps(data))
+        logging.info("------------------------------------------------------------------------------------------")
