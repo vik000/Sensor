@@ -39,7 +39,7 @@ class Redis:
         success = True
         for k in set:
             if self.r.hset(key, k, set.get(k)) == 1:
-                logging.info("data stored")
+                logging.info(f"{k} stored")
             else:
                 logging.error("data not stored")
                 success = False
