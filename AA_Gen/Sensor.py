@@ -7,7 +7,7 @@ import random
 class Data:
     def __init__(self):
         """
-
+        This class handles the data and the format in which it's contained
         """
         self.id = str(uuid.uuid4())
         self.type = "Sensor"
@@ -16,6 +16,10 @@ class Data:
         self.object = {}
 
     def __make_object(self):
+        """
+        creates the dictionary object in the expected format.
+        :return:
+        """
         if self.id:
             self.object['id'] = self.id
         if self.type:
@@ -27,6 +31,10 @@ class Data:
             self.object.get('content')['time_of_measurement'] = self.time
 
     def get_object(self):
+        """
+        calls the object creator and outputs it as json
+        :return:
+        """
         if self.id and self.temp and self.type and self.time:
             self.__make_object()
             return json.dumps(self.object)

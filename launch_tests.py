@@ -1,12 +1,12 @@
-from TestReader import *
-from TestWebsocket import *
-from TestDataBase import *
+from Tests.TestReader import *
+from Tests.TestDataBase import *
+from Tests.TestWebsocket import *
 
 
 def main():
     TestWorker()
-    TestSensor()
     TestDb()
+    TestSensor()
 
 
 if __name__ == "__main__":

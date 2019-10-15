@@ -1,6 +1,6 @@
 import pytest
-from BB_Reader.Piper import *
 from AA_Gen.Sensor import Data
+from BB_Reader.Piper import Worker
 
 
 class TestWorker:
